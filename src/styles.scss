@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+// .light-theme{
+//     --background: hsl(0, 0%, 98%);
+//     --light-blue-gray: hsl(236, 33%, 92%);
+//     --light-blue-gray-hover: hsl(233, 11%, 84%);
+// --dark-grayblue: hsl(236, 9%, 61%);
+// --deep-dark-grayblue: hsl(235, 19%, 35%);
+// --desktop-lg : url(assets/images/bg-desktop-dark.jpg);
+
+
+// }
+
+
+*{
+    margin: 0;
+    --background: hsl(235, 21%, 11%);
+    --todo-background: hsl(235, 24%, 19%);
+    --light-blue-gray: hsl(234, 39%, 85%);
+    --light-blue-gray-hover: hsl(236, 33%, 92%);
+    --dark-grayblue: hsl(234, 11%, 52%);
+    --deep-dark-grayblue: hsl(233, 14%, 35%);
+    --desktop-lg : url('assets/images/bg-desktop-dark.jpg');
+    font-size: 18px;
+}
+
+
+
+// - Very Dark Grayish Blue: hsl(237, 14%, 26%);
+
+
+
