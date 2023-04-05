@@ -11,10 +11,18 @@ export class AppComponent {
   text!: string;
   status = false;
   isSaved = false;
+  showAll=true;
+  showActive = false;
+  showComplete=false;
+  num!:number
+  complete:ITODOdata[]=[]
+  active:ITODOdata[]=[]
   results: ITODOdata[] = []
+  
   constructor() {
   }
   submit_todo(e: any) {
+    //push the todo to instance results
     if (e.key === 'Enter') {
       const todo: ITODOdata = {
         name: this.text,
@@ -25,6 +33,7 @@ export class AppComponent {
       //convert type ITODOdata to json string
       const todoString = JSON.stringify(todo);
     }
+    this.num = this.results.length
   }
 
   //change the color of the div and change value of isCompleted
@@ -48,6 +57,54 @@ export class AppComponent {
 
     }
   }
-  //push the todo to instance results then send to local storage
+
+  remove_todo(item: ITODOdata) {
+    const itemIndex = this.results.indexOf(item);
+    if (itemIndex > -1) {
+      //apparently i have to splice to remove, failed miserably in thinking i could change how pop works
+      this.results.splice(itemIndex, 1);
+    }
+    console.log(this.results)
+  }
+
+  filterCompleted() {
+    console.log(this.results)
+    for (const item of this.results) {
+      if(item.isComplete==true){
+        this.complete.push(item);
+        console.log(this.complete)
+      }
+    }
+    this.showComplete=true;
+    this.showActive=false;
+    this.showAll=false;
+  }
+  filterActive() {
+    console.log(this.results)
+    for (const item of this.results) {
+      if(item.isComplete==false){
+        this.active.push(item);
+        console.log(this.active)
+      }
+    }
+    this.showAll=false;
+    this.showComplete=false;
+    this.showActive=true;
+  }
+  clearCompleted() {
+    this.complete.length=0;
+    for(let item of this.results)
+    {
+      if(item.isComplete==true){
+        const itemIndex = this.results.indexOf(item);
+          this.results.splice(itemIndex, 1);
+      }
+    }
+    this.num=this.results.length
+    console.log(this.results)
+  }
+
+  
+
 }
 

@@ -16,14 +16,32 @@
           </form>
         </div>
       </section>
-
-      <div class="todo-display" *ngFor="let item of results">
-        <div class="checkbox" (click)="changecolor(path1,item)" #path1></div>
-        <p>{{item.name}}</p>
-      </div>
+      <section style="width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 18px;
+      font-family: 'Open Sans', sans-serif;">
+        <div class="todo-display" *ngFor="let item of results">
+          <article style="display: inline-flex; align-items:center ;">
+            <div class="checkbox" (click)="changecolor(path1,item)" #path1></div>
+            <p>{{item.name}}</p>
+          </article>
+          <img src="assets/images/icon-cross.svg" alt="delete" style="display: flex; justify-self: right;" (click)="remove_todo(item)">
+        </div>
+        <div class="bottomcontainer">
+          <p>{{num}} items left</p>
+          <div class="filter">
+            <h4>All</h4>
+            <!-- <h4>Active</h4>
+            <h4>Completed</h4> -->
+            <h4 (click)="filterActive()">Active</h4>
+            <h4 (click)="filterCompleted()">Completed</h4>
+            
+          </div>
+          <p style="cursor: pointer;" (click)="clearCompleted()">Clear Completed</p>
+        </div>
+      </section>
     </div>
   </div>
 </div>
-
-<!-- <img src="assets/images/icon-check.svg" alt=""
-          *ngIf=item.isComplete> -->
