@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ITODOdata } from 'src/assets/models/todo.model';
 import { v4 as uuidv4 } from 'uuid';
 @Component({
@@ -7,27 +7,37 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'to-do';
   text!: string;
   status = false;
   isSaved = false;
-
+  isDarkTheme = false;
   showCompleted = false;
 
 
   num!: number
 
-
-
-
-  // complete: ITODOdata[]=[]
-  // active: ITODOdata[]=[]
   results: ITODOdata[] = []
   tempresults: ITODOdata[] = []
 
   constructor() {
+    
   }
+  ngOnInit(): void {
+    this.detectColorScheme();
+  }
+  detectColorScheme(){
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+  if (darkModeMediaQuery.matches) {
+    this.isDarkTheme = true;
+  }
+  }
+  switchTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+  }
+
   submit_todo(e: any) {
     //push the todo to instance results
     if (e.key === 'Enter') {
@@ -38,18 +48,12 @@ export class AppComponent {
       };
       // document.getElementById("submitbtn")!.click();
       this.tempresults.push(todo);
-      console.log(this.results);
-  console.log(this.tempresults);
+      (e.target as HTMLInputElement).value = '';
 
-     
-
-      
-
+  
     }
     this.tempresults=this.results
-    console.log(this.text)
-  console.log(this.results);
-  console.log(this.tempresults);
+ 
     this.num = this.results.length
     
   }
@@ -86,8 +90,7 @@ export class AppComponent {
       this.tempresults.splice(itemIndex, 1);
     }
     this.tempresults=this.results
-    console.log(this.results)
-    console.log(this.tempresults)
+  
     
   }
 
@@ -113,7 +116,7 @@ export class AppComponent {
         this.tempresults.push(item)
       }
     }
-    console.log(this.tempresults)
+    
     this.showCompleted = false;
   }
 
@@ -132,9 +135,7 @@ export class AppComponent {
     this.results=_temp
     this.tempresults = _temp
     this.num = this.results.length
-    console.log(this.results)
-    console.log(_temp)
-    console.log(this.tempresults)
+  
     
   }
 

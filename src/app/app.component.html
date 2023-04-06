@@ -1,11 +1,12 @@
-<div class="container">
+<div class="container" [ngClass]="{'dark-theme': isDarkTheme, 'light-theme': !isDarkTheme}">
   <div class="img-container"></div>
   <div class="todo-container">
     <div class="todo-box">
       <section class="top-container">
         <article class="topbar">
           <p>TODO</p>
-          <img src="assets/images/sunny.svg" alt="">
+          <img (click)="switchTheme()" *ngIf="isDarkTheme" src="assets/images/sunny.svg" alt="">
+          <img (click)="switchTheme()" *ngIf="!isDarkTheme" src="assets/images/dark.svg" alt="">
         </article>
         <div class="todo-input">
           <div class="checkbox" [(ngModel)]="text"></div>
@@ -29,7 +30,7 @@
           </article>
           <img src="assets/images/icon-cross.svg" alt="delete" style="display: flex; justify-self: right;" (click)="remove_todo(item)">
         </div>
-      </section>
+      </section >
         <div class="bottomcontainer">
           <p>{{num}} items left</p>
           <div class="filter">
@@ -42,7 +43,18 @@
           </div>
           <h4 style="cursor: pointer;" (click)="clearCompleted()">Clear Completed</h4>
         </div>
+
+        <div class=" bottomcontainer mobilefilter">
+          <h4 (click)="all()" style="color:#3080D1">All</h4>
+          <!-- <h4>Active</h4>
+          <h4>Completed</h4> -->
+          <h4 (click)="filterActive()">Active</h4>
+          <h4 (click)="filterCompleted()">Completed</h4>
+        
+        </div>
       </section>
+     
     </div>
+    <p style="margin-bottom: 30px;">Drag and drop to reorder list</p>
   </div>
 </div>
