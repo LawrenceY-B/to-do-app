@@ -9,11 +9,10 @@
         </article>
         <div class="todo-input">
           <div class="checkbox" [(ngModel)]="text"></div>
-          <form action="">
-            <input type="text" value="todo" name="todo" placeholder="Create a new task" (keyup)="submit_todo($event)"
-              [(ngModel)]="text">
-            <input type="submit" value="submit" name="submit" id="submitbtn" style="display: none;">
-          </form>
+          
+            <input type="text" value="todo"  name="todo" placeholder="Create a new task" (keyup)="submit_todo($event)"  [(ngModel)]="text" autocomplete="off" >
+            <input type="submit" value="submit" name="submit"   id="submitbtn" style="display: none;">
+         
         </div>
       </section>
       <section style="width: 100%;
@@ -22,24 +21,26 @@
       align-items: center;
       font-size: 18px;
       font-family: 'Open Sans', sans-serif;">
-        <div class="todo-display" *ngFor="let item of results">
-          <article style="display: inline-flex; align-items:center ;">
-            <div class="checkbox" (click)="changecolor(path1,item)" #path1></div>
-            <p>{{item.name}}</p>
+      <section id="dropContainer" cdkDropList (cdkDropListDropped)="drop($event)">
+        <div class="todo-display" *ngFor="let item of tempresults" cdkDrag >
+          <article  style="display: inline-flex; align-items:center ;">
+            <div [ngStyle]="{'background' : item.isComplete ? 'linear-gradient( 270deg,  #57ddff 24.85%, #c058f3 74.37%)' : 'transparent'}" class="checkbox" (click)="changecolor(path1,item)" #path1></div>
+            <p [ngStyle]="{'text-decoration' : item.isComplete ? 'line-through' : 'none'}">{{item.name}}</p>
           </article>
           <img src="assets/images/icon-cross.svg" alt="delete" style="display: flex; justify-self: right;" (click)="remove_todo(item)">
         </div>
+      </section>
         <div class="bottomcontainer">
           <p>{{num}} items left</p>
           <div class="filter">
-            <h4>All</h4>
+            <h4 (click)="all()" style="color:#3080D1">All</h4>
             <!-- <h4>Active</h4>
             <h4>Completed</h4> -->
             <h4 (click)="filterActive()">Active</h4>
             <h4 (click)="filterCompleted()">Completed</h4>
             
           </div>
-          <p style="cursor: pointer;" (click)="clearCompleted()">Clear Completed</p>
+          <h4 style="cursor: pointer;" (click)="clearCompleted()">Clear Completed</h4>
         </div>
       </section>
     </div>

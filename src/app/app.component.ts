@@ -1,6 +1,7 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { ITODOdata } from 'src/assets/models/todo.model';
-
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,14 +12,20 @@ export class AppComponent {
   text!: string;
   status = false;
   isSaved = false;
-  showAll=true;
-  showActive = false;
-  showComplete=false;
-  num!:number
-  complete:ITODOdata[]=[]
-  active:ITODOdata[]=[]
+
+  showCompleted = false;
+
+
+  num!: number
+
+
+
+
+  // complete: ITODOdata[]=[]
+  // active: ITODOdata[]=[]
   results: ITODOdata[] = []
-  
+  tempresults: ITODOdata[] = []
+
   constructor() {
   }
   submit_todo(e: any) {
@@ -27,17 +34,31 @@ export class AppComponent {
       const todo: ITODOdata = {
         name: this.text,
         isComplete: this.isSaved,
+        id: uuidv4()
       };
-      this.results.push(todo);
-      document.getElementById("submitbtn")!.click();
-      //convert type ITODOdata to json string
-      const todoString = JSON.stringify(todo);
+      // document.getElementById("submitbtn")!.click();
+      this.tempresults.push(todo);
+      console.log(this.results);
+  console.log(this.tempresults);
+
+     
+
+      
+
     }
+    this.tempresults=this.results
+    console.log(this.text)
+  console.log(this.results);
+  console.log(this.tempresults);
     this.num = this.results.length
+    
   }
 
-  //change the color of the div and change value of isCompleted
+  //change the color of the div and change value of showCompleted
   changecolor(path: HTMLElement, item: ITODOdata) {
+    const elem = this.results.find(_item => item.id === _item.id);
+    if (elem) elem.isComplete = true;
+
     if (!this.status) {
       path.style.background = "linear-gradient( 270deg,  #57ddff 24.85%, #c058f3 74.37%)";
       // change status to true
@@ -54,7 +75,6 @@ export class AppComponent {
       //change status of isComplete to false
       const itemIndex = this.results.indexOf(item);
       this.results[itemIndex].isComplete = false;
-
     }
   }
 
@@ -62,49 +82,66 @@ export class AppComponent {
     const itemIndex = this.results.indexOf(item);
     if (itemIndex > -1) {
       //apparently i have to splice to remove, failed miserably in thinking i could change how pop works
-      this.results.splice(itemIndex, 1);
+      
+      this.tempresults.splice(itemIndex, 1);
     }
+    this.tempresults=this.results
     console.log(this.results)
+    console.log(this.tempresults)
+    
   }
 
   filterCompleted() {
-    console.log(this.results)
+    this.tempresults = []
+
     for (const item of this.results) {
-      if(item.isComplete==true){
-        this.complete.push(item);
-        console.log(this.complete)
+      if (item.isComplete == true) {
+        // this.complete.push(item);
+        this.tempresults.push(item)
       }
     }
-    this.showComplete=true;
-    this.showActive=false;
-    this.showAll=false;
+
+
+    this.showCompleted = true;
   }
   filterActive() {
-    console.log(this.results)
+    this.tempresults = []
+
+
     for (const item of this.results) {
-      if(item.isComplete==false){
-        this.active.push(item);
-        console.log(this.active)
+      if (item.isComplete == false) {
+        this.tempresults.push(item)
       }
     }
-    this.showAll=false;
-    this.showComplete=false;
-    this.showActive=true;
+    console.log(this.tempresults)
+    this.showCompleted = false;
   }
+
+  all() {
+    this.tempresults = this.results
+  }
+
   clearCompleted() {
-    this.complete.length=0;
-    for(let item of this.results)
-    {
-      if(item.isComplete==true){
-        const itemIndex = this.results.indexOf(item);
-          this.results.splice(itemIndex, 1);
+
+    const _temp = []
+    for (let item of this.results) {
+      if (item.isComplete != true) {
+        _temp.push(item)
       }
     }
-    this.num=this.results.length
+    this.results=_temp
+    this.tempresults = _temp
+    this.num = this.results.length
     console.log(this.results)
+    console.log(_temp)
+    console.log(this.tempresults)
+    
   }
 
-  
 
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.results, event.previousIndex, event.currentIndex);
+    this.tempresults = this.results
+  }
 }
 
