@@ -1,3 +1,5 @@
+
+
 <div class="container" [ngClass]="{'dark-theme': isDarkTheme, 'light-theme': !isDarkTheme}">
   <div class="img-container"></div>
   <div class="todo-container">
@@ -24,7 +26,7 @@
       font-family: 'Open Sans', sans-serif;">
       <section id="dropContainer" cdkDropList (cdkDropListDropped)="drop($event)">
         <div class="todo-display" *ngFor="let item of tempresults" cdkDrag >
-          <article  style="display: inline-flex; align-items:center ;">
+          <article  style="display: flex; align-items:center ;">
             <div [ngStyle]="{'background' : item.isComplete ? 'linear-gradient( 270deg,  #57ddff 24.85%, #c058f3 74.37%)' : 'transparent'}" class="checkbox" (click)="changecolor(path1,item)" #path1></div>
             <p [ngStyle]="{'text-decoration' : item.isComplete ? 'line-through' : 'none'}">{{item.name}}</p>
           </article>
@@ -55,6 +57,7 @@
       </section>
      
     </div>
+    <div class="circle"></div>
     <p style="margin-bottom: 30px;">Drag and drop to reorder list</p>
   </div>
 </div>
